@@ -165,7 +165,7 @@ export default function MultiTextDraggable() {
             }
         );
     };
-    const addTextBox = (copyText) => {
+    const addTextBox = () => {
         const newId = texts.length > 0 ? texts[texts.length - 1].id + 1 : 1;
 
 
@@ -178,13 +178,32 @@ export default function MultiTextDraggable() {
             ...texts,
             {
                 id: newId,
-                text: 'New Text' || copyText,
+                text: 'New Text',
                 x: centerX,
                 y: centerY,
             },
         ]);
     };
 
+    const copiedTextBox = (copiedText = '') => {
+        const newId = texts.length > 0 ? texts[texts.length - 1].id + 1 : 1;
+
+
+        const offset = 20 * texts.length;
+
+        const centerX = (windowWidth / 3.2) - 75 + offset;
+        const centerY = (windowHeight / 3.2) - 100 + offset;
+
+        setTexts([
+            ...texts,
+            {
+                id: newId,
+                text: copiedText,
+                x: centerX,
+                y: centerY,
+            },
+        ]);
+    };
 
     const updateText = (id, newText) => {
         setTexts((prev) =>
@@ -280,7 +299,7 @@ export default function MultiTextDraggable() {
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => {
                         const filtered = find(texts, (item) => item.id === targetText);
-                        addTextBox(result(filtered, 'text', ''));
+                        copiedTextBox(result(filtered, 'text', ''));
                         setVisible(!visible);
                     }}>
                         <Text style={styles.option}>Copy</Text>
